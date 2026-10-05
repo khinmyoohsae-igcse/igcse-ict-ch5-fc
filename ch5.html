@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IGCSE ICT Chapter 5 The Effects of Using IT 50 Interactive Flashcards">
+    <title>IGCSE ICT Chapter 5 | Flashcards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --back-card-bg: #f3e8ff;
+            --back-card-text: #6b21a8;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 2rem 1rem 1rem 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 0.5rem 0 0 0;
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        main {
+            width: 100%;
+            max-width: 650px;
+            padding: 1rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stats-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .category-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .flashcard-container {
+            width: 100%;
+            height: 320px;
+            perspective: 1000px;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-radius: 1.5rem;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            box-sizing: border-box;
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            text-align: center;
+        }
+
+        .card-back {
+            background: var(--back-card-bg);
+            color: var(--back-card-text);
+            transform: rotateY(180deg);
+            border: 1px solid #e9d5ff;
+        }
+
+        .card-face h3 {
+            margin: 0 0 1rem 0;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .card-back h3 {
+            color: #9333ea;
+        }
+
+        .card-face p {
+            font-size: 1.2rem;
+            margin: 0;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .hint {
+            font-size: 0.8rem;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+            opacity: 0.8;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        button {
+            background-color: white;
+            color: var(--primary);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background-color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.8);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: white;
+            font-size: 0.85rem;
+            opacity: 0.9;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>IGCSE ICT Chapter 5</h1>
+        <p>The Effects of Using IT (50 Interactive Flashcards)</p>
+    </header>
+
+    <main>
+        <div class="stats-bar">
+            <span id="card-counter">Card 1 / 50</span>
+            <span class="category-badge" id="category-indicator">5.1 Home Devices</span>
+        </div>
+
+        <div class="flashcard-container" onclick="flipCard()">
+            <div class="flashcard" id="flashcard">
+                <div class="card-face card-front">
+                    <h3>Question / Term</h3>
+                    <p id="front-text">Loading...</p>
+                    <span class="hint">✨ Click card to reveal answer</span>
+                </div>
+                <div class="card-face card-back">
+                    <h3>Answer</h3>
+                    <p id="back-text">Loading...</p>
+                    <span class="hint">✨ Click to flip back</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="prev-btn" onclick="prevCard()">← Previous</button>
+            <button id="next-btn" onclick="nextCard()">Next →</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>Designed with 💖 to support IGCSE ICT students</p>
+    </footer>
+
+    <script>
+        const flashcards = [
+            // 5.1 Microprocessor-controlled devices in the home (1-25)
+            { category: "5.1 Home Devices", front: "What are labour-saving devices (Group 1) in the home?", back: "Household appliances fitted with microprocessors that perform tasks automatically, allowing people to get on with other things (e.g., washing machines, dishwashers)." },
+            { category: "5.1 Home Devices", front: "Give four examples of labour-saving devices fitted with microprocessors.", back: "1. Automatic washing machines\n2. Microwave ovens\n3. Automatic dishwashers\n4. Robotic vacuum cleaners" },
+            { category: "5.1 Home Devices", front: "What are 'Other devices' (Group 2) in the home?", back: "Devices that use microprocessors to make them easier to use and provide additional intelligent features (e.g., smart TVs, central heating systems)." },
+            { category: "5.1 Home Devices", front: "Give four examples of Group 2 microprocessor-controlled home devices.", back: "1. Alarm clocks\n2. Television sets (smart TVs)\n3. Central heating and air-conditioning systems\n4. Mobile phones and tablets" },
+            { category: "5.1 Home Devices", front: "What is a positive effect of labour-saving devices on lifestyle?", back: "People have more free time because household chores are done automatically without requiring continuous manual effort." },
+            { category: "5.1 Home Devices", front: "What is a negative effect of labour-saving devices on physical fitness?", back: "Reduced physical activity and exercise because appliances do the physical work, potentially leading to a sedentary lifestyle." },
+            { category: "5.1 Home Devices", front: "How do microprocessor-controlled devices affect leisure time positively?", back: "They give people more spare time for hobbies, relaxation, and social activities." },
+            { category: "5.1 Home Devices", front: "How can microprocessor-controlled devices negatively affect social interaction in the home?", back: "Family members may spend excessive time interacting with screens or devices rather than talking to each other face-to-face." },
+            { category: "5.1 Home Devices", front: "What is a major disadvantage of leaving devices like televisions on standby?", back: "It wastes a significant amount of electricity." },
+            { category: "5.1 Home Devices", front: "Why might some people find modern microprocessor-controlled home devices difficult to use?", back: "Technophobes or people unconfident around electronic devices may struggle with complex digital menus and features." },
+            { category: "5.1 Home Devices", front: "What are the data security risks of internet-connected smart home devices?", back: "Hackers can potentially access smart home systems or apps to steal personal data, track routines, or commit burglaries." },
+            { category: "5.1 Home Devices", front: "How can a hacker use a smart central heating controller to break into a home?", back: "By hacking the controller or its mobile app, hackers can discover holiday dates when the house is empty, making it an easy burglary target." },
+            { category: "5.1 Home Devices", front: "What security risk is associated with smart fridges and freezers that auto-order food?", back: "Hackers could intercept and gain sensitive data such as credit card numbers." },
+            { category: "5.1 Home Devices", front: "How can cybersecurity risks in smart home devices be mitigated?", back: "By changing default passwords, setting unique passwords on each device, and regularly installing software security updates." },
+            { category: "5.1 Home Devices", front: "What is a smart TV feature made possible by microprocessors?", back: "'Intelligent tuning' and running streaming applications directly without external set-top boxes." },
+            { category: "5.1 Home Devices", front: "What is a robotic vacuum cleaner?", back: "An autonomous, microprocessor-controlled cleaning device that navigates and cleans floors automatically." },
+            { category: "5.1 Home Devices", front: "How do automatic washing machines use microprocessors?", back: "To control water temperature, spin speeds, cycle duration, and motor operations automatically based on selected programs." },
+            { category: "5.1 Home Devices", front: "What is a smart fridge/freezer?", back: "A refrigeration appliance with a microprocessor that tracks food inventory, expiration dates, and can auto-order groceries online." },
+            { category: "5.1 Home Devices", front: "Why do default passwords pose a high security risk on home IT devices?", back: "Because default passwords are well-known or easily guessed by cybercriminals, allowing effortless unauthorized access." },
+            { category: "5.1 Home Devices", front: "What is social isolation in the context of IT use?", back: "A situation where individuals spend less time meeting face-to-face, relying heavily on digital communication instead." },
+            { category: "5.1 Home Devices", front: "Can lack of real-world social interaction impact people psychologically?", back: "Yes, it can make people more anxious or unconfident about meeting others in real life." },
+            { category: "5.1 Home Devices", front: "What is cyberbullying?", back: "Bullying that takes place over digital devices like phones, tablets, or computers, often facilitated by online anonymity." },
+            { category: "5.1 Home Devices", front: "Why do people sometimes behave more aggressively online?", back: "Due to a lack of face-to-face visual cues and the perceived anonymity of digital interactions." },
+            { category: "5.1 Home Devices", front: "What is remote control of home devices?", back: "Using an internet-enabled smartphone or tablet app to control home appliances (e.g., microwave, heating) from miles away." },
+            { category: "5.1 Home Devices", front: "What is the primary benefit of remote monitoring via smartphone apps?", back: "Convenience, flexibility, and the ability to manage household tasks while away from home." },
+
+            // 5.2 Potential health problems related to the prolonged use of ICT equipment (26-50)
+            { category: "5.2 Health Problems", front: "What causes Repetitive Strain Injury (RSI) when using a computer?", back: "Continuous use of a keyboard or repetitive clicking of mouse buttons over long periods." },
+            { category: "5.2 Health Problems", front: "What parts of the body are most commonly affected by RSI?", back: "Fingers, wrists, and hands." },
+            { category: "5.2 Health Problems", front: "How can RSI be prevented or reduced?", back: "Taking regular breaks, doing hand/wrist exercises, using ergonomic keyboards, and adjusting mouse sensitivity." },
+            { category: "5.2 Health Problems", front: "What causes back and neck strain when using computers?", back: "Sitting in front of a computer screen in a poor or static posture for long periods of time." },
+            { category: "5.2 Health Problems", front: "How can back and neck strain be prevented?", back: "Using fully adjustable chairs to maintain correct posture, using footrests, and positioning monitors at correct eye level." },
+            { category: "5.2 Health Problems", front: "How should a computer monitor be positioned to avoid neck strain?", back: "It should be tiltable and raised to the correct height so the user's neck is at a natural, comfortable angle." },
+            { category: "5.2 Health Problems", front: "What is the purpose of using a footrest at a computer desk?", back: "To reduce posture problems and support feet properly if they do not flatly reach the floor." },
+            { category: "5.2 Health Problems", front: "What causes eye problems and headaches from computer use?", back: "Staring at a screen for too long, screen glare, incorrect lighting, or screen flicker." },
+            { category: "5.2 Health Problems", front: "How can eye strain and headaches be reduced?", back: "Taking regular screen breaks (the 20-20-20 rule), using anti-glare screen filters, ensuring proper room lighting, and having regular eye tests." },
+            { category: "5.2 Health Problems", front: "Why are regular eye tests recommended for frequent computer users?", back: "To detect vision issues early; middle-vision glasses can be prescribed if persistent headaches occur." },
+            { category: "5.2 Health Problems", front: "What is Ozone Irritation?", back: "A health risk caused by laser printers in enclosed offices releasing ozone gas into the air." },
+            { category: "5.2 Health Problems", front: "What are the symptoms of ozone irritation?", back: "Dry skin and respiratory problems." },
+            { category: "5.2 Health Problems", front: "How can ozone irritation from laser printers be eliminated or reduced?", back: "Proper office ventilation, housing laser printers in a designated printer room, or switching to inkjet printers." },
+            { category: "5.2 Health Problems", front: "What is a safety risk vs a health risk in an IT environment?", back: "Health risks develop over prolonged periods (e.g., RSI, back strain), whereas safety risks cause immediate physical injury (e.g., electrocution, tripping)." },
+            { category: "5.2 Health Problems", front: "Give an example of an IT safety risk (not health risk).", back: "Tripping over loose trailing wires on the floor, or heavy equipment falling off a table." },
+            { category: "5.2 Health Problems", front: "Give an example of an electrical safety hazard in an IT room.", back: "Overloading electrical sockets or using cables with damaged insulation, posing a fire or electrocution risk." },
+            { category: "5.2 Health Problems", front: "What is carpal tunnel syndrome?", back: "A painful condition of the hand and fingers caused by compression of a nerve in the wrist, often linked to repetitive keyboard/mouse use." },
+            { category: "5.2 Health Problems", front: "What is an ergonomic keyboard?", back: "A keyboard designed with a V-shape or specialized layout to reduce strain on wrists and hands during typing." },
+            { category: "5.2 Health Problems", front: "What is screen glare?", back: "Reflections of light on a computer display from windows or overhead lights that cause eye strain." },
+            { category: "5.2 Health Problems", front: "How can screen glare be minimized?", back: "Using window blinds, tilting the monitor away from direct light sources, or applying anti-glare screen filters." },
+            { category: "5.2 Health Problems", front: "What is the recommended seating posture at a computer?", back: "Feet flat on the floor (or footrest), back supported by an adjustable chair, elbows bent at a 90-degree angle, and eyes level with the top of the screen." },
+            { category: "5.2 Health Problems", front: "Why is taking regular breaks important for computer users?", back: "To rest eye muscles, stretch limbs, prevent blood clots (DVT risk), and relieve repetitive stress on joints." },
+            { category: "5.2 Health Problems", front: "What is Deep Vein Thrombosis (DVT)?", back: "A blood clot in a deep vein, which can be linked to remaining motionless in a chair for extremely long periods while using a computer." },
+            { category: "5.2 Health Problems", front: "How does proper room ventilation help office workers using IT equipment?", back: "It keeps the workspace cool, maintains air quality, and clears out any ozone gas emitted by laser printing equipment." },
+            { category: "5.2 Health Problems", front: "What is the overall goal of implementing health and safety guidelines for ICT use?", back: "To protect workers and students from long-term medical conditions and immediate physical injuries associated with technology." }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        const flashcardElement = document.getElementById('flashcard');
+        const frontText = document.getElementById('front-text');
+        const backText = document.getElementById('back-text');
+        const cardCounter = document.getElementById('card-counter');
+        const categoryIndicator = document.getElementById('category-indicator');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function updateCard() {
+            const currentCard = flashcards[currentIndex];
+            frontText.innerText = currentCard.front;
+            backText.innerText = currentCard.back;
+            cardCounter.innerText = `Card ${currentIndex + 1} / ${flashcards.length}`;
+            categoryIndicator.innerText = currentCard.category;
+
+            isFlipped = false;
+            flashcardElement.classList.remove('flipped');
+
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === flashcards.length - 1;
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            flashcardElement.classList.toggle('flipped', isFlipped);
+        }
+
+        function nextCard() {
+            if (currentIndex < flashcards.length - 1) {
+                currentIndex++;
+                updateCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCard();
+            }
+        }
+
+        updateCard();
+    </script>
+</body>
+</html>
